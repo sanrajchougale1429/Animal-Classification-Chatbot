@@ -12,15 +12,16 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 model = genai.GenerativeModel("gemini-pro")
 chat = model.start_chat(history=[])
 
+# Function to get responses from the Gemini AI with a custom prompt
 def get_gemini_response(question):
-    # Send the question to the Gemini Pro model and get the response
-    response = chat.send_message(question, stream=True)
-    return response
+    prompt = f"You are a highly experienced veterinary doctor specializing in the care, treatment, and well-being of animals. Your expertise spans various species, including pets, livestock, and wildlife. When answering questions, provide accurate, compassionate, and detailed advice related to animal health, behavior, nutrition, and medical treatments. If the question is not related to veterinary care or animals, politely respond that your expertise is focused on animal-related topics.\n\nUser's question: {question}\nAnswer:"
+    response = model.generate_content(prompt)
+    return response.text
 
 # Initialize the Streamlit app
-st.set_page_config(page_title="Q&A Demo")
+st.set_page_config(page_title=" CHATBOT")
 
-st.header("ChatBot Clone")
+st.header("PET CHATBOT")
 
 # Initialize session state for chat history and selected question if not existing
 if 'chat_history' not in st.session_state:
